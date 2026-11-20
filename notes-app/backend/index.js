@@ -2,14 +2,13 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const notesRouter = require("./routes/notes");
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.get("/api/hello", (req, res) => {
-  res.json({ message: "Hello from the server!" });
-});
+app.use("/api/notes", notesRouter);
 
 mongoose
   .connect(process.env.MONGO_URI)
