@@ -1,25 +1,23 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
+import { useNoteContext } from "../hooks/useNoteContext";
 //components
 import NoteDetails from "../components/NoteDetails";
 import NoteForm from "../components/NoteForm";
 const Home = () => {
-  const [notes, setNotes] = useState([]);
-  const handleCreate = (note) => {
-    setNotes((prev) => [note, ...prev]);
-  };
+  const { notes, dispatch } = useNoteContext();
   useEffect(() => {
     const fetchNotes = async () => {
       const response = await fetch("http://localhost:5000/api/notes");
       const json = await response.json();
       if (response.ok) {
-        setNotes(json);
+        dispatch({ type: "SET_NOTES", payload: json });
       }
     };
     fetchNotes();
   }, []);
   return (
     <div className="home">
-      <NoteForm onCreate={handleCreate} />
+      <NoteForm />
 
       <section className="list-side">
         <h2>Saved Notes</h2>
