@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useNoteContext } from "../hooks/useNoteContext";
+//variable
+const API_URL = `${import.meta.env.VITE_API_URL}/notes`;
 const NoteForm = () => {
   const { dispatch } = useNoteContext();
   const [title, setTitle] = useState("");
@@ -7,25 +9,26 @@ const NoteForm = () => {
   const [error, setError] = useState(null);
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const note = { title, body };
-    const response = await fetch("http://localhost:5000/api/notes", {
-      method: "POST",
-      body: JSON.stringify(note),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const json = await response.json();
 
-    if (!response.ok) {
-      setError(json.error);
-    }
-    if (response.ok) {
+    try {
+      const response = await fetch(API_URL, {
+        method: "POST",
+        body: JSON.stringify({ title, body }),
+        headers: { "Content-Type": "application/json" },
+      });
+      const json = await response.json();
+
+      if (!response.ok) {
+        setError(json.message);
+        return;
+      }
+
       setTitle("");
       setBody("");
       setError(null);
-      console.log("New note added", json);
       dispatch({ type: "CREATE_NOTE", payload: json });
+    } catch (err) {
+      setError("Could not reach the server");
     }
   };
   return (

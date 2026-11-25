@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useNoteContext } from "../hooks/useNoteContext";
+//variable
+const API_URL = `${import.meta.env.VITE_API_URL}/notes`;
 const NoteDetails = ({ note }) => {
   const { dispatch } = useNoteContext();
   const [isEditing, setIsEditing] = useState(false);
@@ -7,12 +9,9 @@ const NoteDetails = ({ note }) => {
   const [body, setBody] = useState(note.body);
   const [error, setError] = useState(null);
   const handleDelete = async () => {
-    const response = await fetch(
-      "http://localhost:5000/api/notes/" + note._id,
-      {
-        method: "DELETE",
-      },
-    );
+    const response = await fetch(`${API_URL}/${note._id}`, {
+      method: "DELETE",
+    });
     const json = await response.json();
     if (response.ok) {
       dispatch({ type: "DELETE_NOTE", payload: json });
@@ -20,14 +19,11 @@ const NoteDetails = ({ note }) => {
   };
   const handleSave = async () => {
     try {
-      const response = await fetch(
-        "http://localhost:5000/api/notes/" + note._id,
-        {
-          method: "PATCH",
-          body: JSON.stringify({ title, body }),
-          headers: { "Content-Type": "application/json" },
-        },
-      );
+      const response = await fetch(`${API_URL}/${note._id}`, {
+        method: "PATCH",
+        body: JSON.stringify({ title, body }),
+        headers: { "Content-Type": "application/json" },
+      });
       const json = await response.json();
 
       if (!response.ok) {

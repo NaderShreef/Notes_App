@@ -3,11 +3,13 @@ import { useNoteContext } from "../hooks/useNoteContext";
 //components
 import NoteDetails from "../components/NoteDetails";
 import NoteForm from "../components/NoteForm";
+//variable
+const API_URL = `${import.meta.env.VITE_API_URL}/notes`;
 const Home = () => {
   const { notes, dispatch } = useNoteContext();
   useEffect(() => {
     const fetchNotes = async () => {
-      const response = await fetch("http://localhost:5000/api/notes");
+      const response = await fetch(API_URL);
       const json = await response.json();
       if (response.ok) {
         dispatch({ type: "SET_NOTES", payload: json });
