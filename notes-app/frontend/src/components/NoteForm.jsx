@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNoteContext } from "../hooks/useNoteContext";
-const NoteForm = ({ onCreate }) => {
+const NoteForm = () => {
   const { dispatch } = useNoteContext();
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");

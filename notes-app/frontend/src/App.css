@@ -183,6 +183,33 @@ button.danger:hover {
 .error {
   color: var(--danger);
 }
+.note-card.editing {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.note-card.editing input,
+.note-card.editing textarea {
+  width: 100%;
+  padding: 10px 12px;
+  background: var(--cream);
+  border: 2px solid var(--brown);
+  border-radius: var(--radius);
+  color: var(--brown);
+  font-family: inherit;
+  font-size: 1rem;
+}
+
+.note-card.editing textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.note-card.editing .actions {
+  padding: 0;
+}
 
 /* Small screens */
 @media (max-width: 800px) {
